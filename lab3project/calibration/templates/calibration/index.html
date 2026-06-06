@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>бебебебе</title>
+
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Unbounded:wght@400;700;900&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --border: #1e1e2e;
+    --accent: #7e008d;
+    --accent2: #69005b;
+    --accent3: #ff6eca;
+    --text: #e2e2f0;
+    --muted: #212122;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    background-image: radial-gradient(ellipse at 20% 20%, #1a1a10 0%, transparent 50%),
+                      radial-gradient(ellipse at 80% 80%, #0f0f1a 0%, transparent 50%);
+  }
+
+  header { text-align: center; margin-bottom: 48px; }
+
+  header .label {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(22px, 5vw, 40px);
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--text), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  header p { margin-top: 10px; color: var(--muted); font-size: 13px; }
+
+  .container { width: 100%; max-width: 860px; display: flex; flex-direction: column; gap: 20px; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .card-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    padding: 14px;
+    resize: vertical;
+    min-height: 140px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  textarea:focus { border-color: var(--accent); }
+
+  input[type="file"] {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    padding: 14px;
+    outline: none;
+  }
+
+  .file-label {
+    display: block;
+    margin-top: 14px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .btn {
+    margin-top: 16px;
+    width: 100%;
+    padding: 14px;
+    background: var(--accent);
+    color: #1d1d1d;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Unbounded', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(124, 0, 138, 0.347);
+  }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .result-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .result-box.p1 { border-color: var(--accent); }
+  .result-box.p2 { border-color: var(--accent3); }
+
+  .result-box .num {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 52px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .result-box.p1 .num { color: var(--accent); }
+  .result-box.p2 .num { color: var(--accent3); }
+
+  .result-box .desc {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .table-wrap {
+    max-height: 360px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+
+  .table-wrap::-webkit-scrollbar { width: 4px; }
+  .table-wrap::-webkit-scrollbar-track { background: var(--bg); }
+  .table-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+  thead th {
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--surface);
+  }
+
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+
+  tbody td {
+    padding: 8px 12px;
+    vertical-align: middle;
+  }
+
+  .line-text { color: var(--text); word-break: break-all; }
+
+  .val {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .val.v1 { color: var(--accent); }
+  .val.v2 { color: var(--accent3); }
+
+  .error {
+    background: rgba(255, 110, 255, 0.156);
+    border: 1px solid var(--accent2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: var(--accent2);
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+
+  .status-bar {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .status-bar b { color: var(--text); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="label">лабка33</div>
+  <h1>Калібрування документу</h1>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <div class="card-title">Введення даних</div>
+
+    {% if form.errors %}
+      <div class="error">
+        {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.data_text }}
+      <span class="file-label">Або завантажте .txt файл</span>
+      {{ form.data_file }}
+      <button type="submit" class="btn">▶ Порахувати</button>
+    </form>
+  </div>
+
+  {% if analyzed %}
+  <div class="card">
+    <div class="card-title">Результати</div>
+    <div class="results-grid">
+      <div class="result-box p1">
+        <div class="num">{{ total1 }}</div>
+        <div class="desc">Частина 1<br>Тільки цифри</div>
+      </div>
+      <div class="result-box p2">
+        <div class="num">{{ total2 }}</div>
+        <div class="desc">Частина 2<br>Цифри + слова</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Деталі</div>
+    <div class="status-bar">Рядків: <b>{{ total_lines }}</b></div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Рядок</th>
+            <th style="text-align:center">Ч.1</th>
+            <th style="text-align:center">Ч.2</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in results %}
+          <tr>
+            <td class="line-text">{{ r.line }}</td>
+            <td class="val v1">{{ r.val1 }}</td>
+            <td class="val v2">{{ r.val2 }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+
+</body>
+</html>
